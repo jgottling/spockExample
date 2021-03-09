@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: spockExample
+    server:
+      port: ${PORT:8080}
