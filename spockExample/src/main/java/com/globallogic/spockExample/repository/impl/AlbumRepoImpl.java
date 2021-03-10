@@ -2,32 +2,68 @@ package com.globallogic.spockExample.repository.impl;
 
 import com.globallogic.spockExample.model.Album;
 import com.globallogic.spockExample.repository.IAlbumRepo;
+import io.micronaut.transaction.annotation.ReadOnly;
 
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
+@Singleton
 public class AlbumRepoImpl implements IAlbumRepo {
-    @Override
-    public int createAlbum(Album album) {
-        return 0;
+
+    private final EntityManager entityManager;
+
+    public AlbumRepoImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    private Album findByID(int albumID) {
+        //TODO throw exception album not found
+        return entityManager.find(Album.class, albumID);
     }
 
     @Override
+    @Transactional
+    public void createAlbum(Album album) {
+        entityManager.persist(album);
+    }
+
+    @Override
+    @ReadOnly
     public Album getAlbum(int albumID) {
-        return null;
+        return findByID(albumID);
     }
 
     @Override
+    @ReadOnly
     public List<Album> getAll() {
-        return null;
+        String qlString = "SELECT a FROM albums as a";
+        TypedQuery<Album> query = entityManager.createQuery(qlString, Album.class);
+
+        return query.getResultList();
     }
 
     @Override
-    public int updateAlbum(Album album) {
-        return 0;
+    @Transactional
+    public void updateAlbum(Album album) {
+
+        Album albumOld = entityManager.find(Album.class, album.getId());
+
+        if (albumOld != null) {
+            albumOld.setSongs(album.getSongs());
+            albumOld.setStock(album.getStock());
+            albumOld.setTitle(album.getTitle());
+            entityManager.persist(albumOld);
+        }
+
     }
 
     @Override
-    public int deleteAlbum(int AlbumID) {
-        return 0;
+    @Transactional
+    public void deleteAlbum(int albumID) {
+        entityManager.remove(findByID(albumID));
     }
 }

@@ -2,17 +2,18 @@ package com.globallogic.spockExample.repository;
 
 import com.globallogic.spockExample.model.Album;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface IAlbumRepo {
 
-    int createAlbum(Album album);
+    void createAlbum(@NotNull Album album);
 
-    Album getAlbum(int albumID);
+    Album getAlbum(@NotNull int albumID);
 
     List<Album> getAll();
 
-    int updateAlbum(Album album);
+    void updateAlbum(@NotNull Album album);
 
-    int deleteAlbum(int AlbumID);
+    void deleteAlbum(@NotNull int albumID);
 }
