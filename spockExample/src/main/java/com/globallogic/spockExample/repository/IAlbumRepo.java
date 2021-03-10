@@ -1,19 +1,10 @@
 package com.globallogic.spockExample.repository;
 
 import com.globallogic.spockExample.model.Album;
+import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.repository.CrudRepository;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
+@Repository
+public interface IAlbumRepo extends CrudRepository<Album, Integer> {
 
-public interface IAlbumRepo {
-
-    void createAlbum(@NotNull Album album);
-
-    Album getAlbum(@NotNull int albumID);
-
-    List<Album> getAll();
-
-    void updateAlbum(@NotNull Album album);
-
-    void deleteAlbum(@NotNull int albumID);
 }
