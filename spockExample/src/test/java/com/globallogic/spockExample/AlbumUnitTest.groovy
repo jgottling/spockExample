@@ -5,7 +5,11 @@ import spock.lang.Specification;
 
 @MicronautTest
 class AlbumUnitTest extends Specification {
-    void shouldAnswerWithTrue() {
 
-    }
+    //Fixture Methods
+    def setupSpec() {}    // runs once -  before the first feature method
+    def setup() {}        // runs before every feature method
+    def cleanup() {}      // runs after every feature method
+    def cleanupSpec() {}  // runs once -  after the last feature method
+
 }
