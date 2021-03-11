@@ -16,6 +16,7 @@ public class AlbumDTO {
 
     private int id;
     private String title;
+    private String artist;
     private List<String> songs;
     private int stock;
 
@@ -24,6 +25,7 @@ public class AlbumDTO {
         return Album.builder().
                 id(albumDto.getId()).
                 title(albumDto.getTitle()).
+                artist(albumDto.getArtist()).
                 songs(albumDto.getSongs()).
                 stock(albumDto.getStock()).
                 build();

@@ -25,6 +25,10 @@ public class Album {
     @Column(name = "album_title", nullable = false)
     private String title;
 
+    @NotNull
+    @Column(name = "album_artist", nullable = false)
+    private String artist;
+
     @Transient
     @Column(name = "album_songs", nullable = false)
     private List<String> songs;
