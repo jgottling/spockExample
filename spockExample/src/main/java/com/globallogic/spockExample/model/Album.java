@@ -1,16 +1,19 @@
 package com.globallogic.spockExample.model;
 
+import com.globallogic.spockExample.dto.AlbumDTO;
+import io.micronaut.data.annotation.MappedEntity;
+import io.micronaut.data.annotation.MappedProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ElementCollection;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.List;
 
-@Entity
-@Table(name = "albums")
+@MappedEntity
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,22 +21,25 @@ import java.util.List;
 public class Album {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long id;
 
-    @NotNull
-    @Column(name = "album_title", nullable = false)
+    @MappedProperty
     private String title;
-
-    @NotNull
-    @Column(name = "album_artist", nullable = false)
     private String artist;
 
-    @Transient
-    @Column(name = "album_songs", nullable = false)
+    @ElementCollection
     private List<String> songs;
-
-    @Column(name = "album_stock", nullable = false)
     private int stock;
 
+    public static AlbumDTO modelToDTO(Album album) {
+
+        return AlbumDTO.builder().
+                id(album.getId()).
+                title(album.getTitle()).
+                artist(album.getArtist()).
+                songs(album.getSongs()).
+                stock(album.getStock()).
+                build();
+    }
 }

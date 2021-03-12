@@ -14,13 +14,13 @@ class AlbumServiceUnitTest extends Specification {
     */
 
     //Class to be tested
-    private AlbumServiceImpl albumService;
+    AlbumServiceImpl albumService;
 
     //Dependencies (will be mocked)
-    private IAlbumRepo albumRepo;
+    IAlbumRepo albumRepo;
 
     //Test data
-    private Album sampleAlbum;
+    Album sampleAlbum;
 
     def setup() {
         albumRepo = Stub(IAlbumRepo)
@@ -44,7 +44,7 @@ class AlbumServiceUnitTest extends Specification {
         def album = albumService.getAlbum(1)
 
         then: "the service returns the sample album with id 1"
-        album.get().getId() == 1
+        album.getId() == 1
     }
 
 }

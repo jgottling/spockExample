@@ -2,14 +2,16 @@ package com.globallogic.spockExample.controller.impl;
 
 import com.globallogic.spockExample.controller.IAlbumController;
 import com.globallogic.spockExample.dto.AlbumDTO;
-import com.globallogic.spockExample.model.Album;
 import com.globallogic.spockExample.service.IAlbumService;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
+import io.reactivex.Single;
 
 import java.util.List;
-import java.util.Optional;
+
+import static io.micronaut.http.MediaType.APPLICATION_JSON;
 
 @ExecuteOn(TaskExecutors.IO)
 @Controller("/albums")
@@ -23,35 +25,35 @@ public class AlbumControllerImpl implements IAlbumController {
 
 
     @Override
-    @Post("/")
-    public void createAlbum(@Body AlbumDTO albumDTO) {
-        albumService.createAlbum(albumDTO);
+    @Post(uri = "/", produces = APPLICATION_JSON)
+    public Single<HttpResponse<AlbumDTO>> createAlbum(@Body AlbumDTO albumDTO) {
+        return Single.just(HttpResponse.created(albumService.createAlbum(albumDTO)));
     }
 
     @Override
-    @Get("/{id}")
-    public Album getAlbum(@PathVariable String id) {
+    @Get(uri = "/{id}", produces = APPLICATION_JSON)
+    public Single<HttpResponse<AlbumDTO>> getAlbum(@PathVariable String id) {
 
-        Optional<Album> album = albumService.getAlbum(Integer.parseInt(id));
-
-        return album.orElse(null);
+        return Single.just(HttpResponse.ok(albumService.getAlbum(Long.parseLong(id))));
     }
 
     @Override
-    @Get("/")
-    public List<Album> getAll() {
-        return albumService.getAll();
+    @Get(uri = "/", produces = APPLICATION_JSON)
+    public Single<List<AlbumDTO>> getAll() {
+        return Single.just(albumService.getAll());
     }
 
     @Override
-    @Put("/")
-    public void updateAlbum(@Body AlbumDTO albumDTO) {
-        albumService.updateAlbum(albumDTO);
+    @Put(uri = "/", produces = APPLICATION_JSON)
+    public Single<HttpResponse<AlbumDTO>> updateAlbum(@Body AlbumDTO albumDTO) {
+        return Single.just(HttpResponse.ok(albumService.updateAlbum(albumDTO)));
     }
 
     @Override
-    @Delete("/{id}")
-    public void deleteAlbum(@PathVariable String id) {
-        albumService.deleteAlbum(Integer.parseInt(id));
+    @Delete(uri = "/{id}", produces = APPLICATION_JSON)
+    public Single<HttpResponse> deleteAlbum(@PathVariable String id) {
+        albumService.deleteAlbum(Long.parseLong(id));
+        return Single.just(HttpResponse.accepted());
     }
+
 }

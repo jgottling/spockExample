@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AlbumDTO {
 
-    private int id;
+    private long id;
     private String title;
     private String artist;
     private List<String> songs;

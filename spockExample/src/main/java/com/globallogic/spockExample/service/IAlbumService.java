@@ -1,20 +1,22 @@
 package com.globallogic.spockExample.service;
 
 import com.globallogic.spockExample.dto.AlbumDTO;
-import com.globallogic.spockExample.model.Album;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 public interface IAlbumService {
-    void createAlbum(@NotNull AlbumDTO albumDTO);
+    AlbumDTO createAlbum(@NotNull AlbumDTO albumDTO);
 
-    Optional<Album> getAlbum(@NotNull int albumID);
+    AlbumDTO getAlbum(@NotNull long albumID);
 
-    List<Album> getAll();
+    AlbumDTO getAlbumByTitle(@NotNull String albumTitle);
 
-    void updateAlbum(@NotNull AlbumDTO albumDTO);
+    List<AlbumDTO> getAll();
 
-    void deleteAlbum(@NotNull int albumID);
+    AlbumDTO updateAlbum(@NotNull AlbumDTO albumDTO);
+
+    void deleteAlbum(@NotNull long albumID);
+
+
 }
