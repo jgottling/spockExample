@@ -12,4 +12,5 @@ public interface IAlbumRepo extends CrudRepository<Album, Long> {
 
     @Executable
     Optional<Album> findByTitle(String title);
+
 }

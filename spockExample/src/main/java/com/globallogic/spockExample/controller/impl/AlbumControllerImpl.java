@@ -9,6 +9,7 @@ import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.reactivex.Single;
 
+import javax.inject.Inject;
 import java.util.List;
 
 import static io.micronaut.http.MediaType.APPLICATION_JSON;
@@ -17,12 +18,8 @@ import static io.micronaut.http.MediaType.APPLICATION_JSON;
 @Controller("/albums")
 public class AlbumControllerImpl implements IAlbumController {
 
-    protected final IAlbumService albumService;
-
-    public AlbumControllerImpl(IAlbumService albumService) {
-        this.albumService = albumService;
-    }
-
+    @Inject
+    IAlbumService albumService;
 
     @Override
     @Post(uri = "/", produces = APPLICATION_JSON)

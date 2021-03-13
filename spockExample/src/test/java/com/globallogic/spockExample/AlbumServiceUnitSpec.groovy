@@ -1,46 +1,50 @@
 package com.globallogic.spockExample
 
-import com.globallogic.spockExample.dto.AlbumDTO
+import com.globallogic.spockExample.model.Album
 import com.globallogic.spockExample.repository.IAlbumRepo
 import com.globallogic.spockExample.service.impl.AlbumServiceImpl
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 
-import javax.inject.Inject
-
 @MicronautTest
-class AlbumIntegrationTest extends Specification {
+class AlbumServiceUnitSpec extends Specification {
+
     /*
-    Testear la creación del un álbum en la base de datos
+    Testear el get de ese álbum con el repositorio mockeado
     */
 
     //Class to be tested
-    AlbumServiceImpl albumService
+    AlbumServiceImpl albumService;
 
-    @Inject
+    //Dependencies (will be mocked)
     IAlbumRepo albumRepo;
 
     //Test data
-    private AlbumDTO sampleAlbumDTO
+    Album sampleAlbum;
 
     def setup() {
+        albumRepo = Stub(IAlbumRepo)
         albumService = new AlbumServiceImpl(albumRepo)
 
-        sampleAlbumDTO = AlbumDTO.builder().
+        sampleAlbum = Album.builder().
+                id(1).
                 artist("Soda Stereo").
                 title("Cancion Animal").
                 songs(Arrays.asList("El septimo dia", "Cancion animal")).
                 stock(10).
                 build()
 
+        albumRepo.findById(_) >> Optional.of(sampleAlbum)
+
     }
 
     def "album service will get saved album from repository"() {
 
-        when: "a service creates the sample album"
-        albumService.createAlbum(sampleAlbumDTO)
+        when: "a service gets the sample album"
+        def album = albumService.getAlbum(1)
 
-        then: "the service can find the album previously created"
-        albumService.getAlbumByTitle("Cancion Animal").getArtist() == "Soda Stereo"
+        then: "the service returns the sample album with id 1"
+        album.getId() == 1
     }
+
 }
