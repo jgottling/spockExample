@@ -10,7 +10,7 @@ datasources:
     password: ""
     driverClassName: org.h2.Driver
     schema-generate: CREATE_DROP
-    dialect: H2Dialect
+    dialect: H2
 jpa:
   default:
     properties:
